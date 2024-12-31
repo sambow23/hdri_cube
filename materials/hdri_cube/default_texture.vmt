@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+    "$basetexture" "hdri_cube/default_texture"
+    "$surfaceprop" "metal"
+    "$model" "1"
+}
