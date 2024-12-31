@@ -2,6 +2,88 @@ include("shared.lua")
 
 ENT.RenderGroup = RENDERGROUP_BOTH
 
+local materialCache = {}
+
+local function CreateModifiedTexture(basePath, colorModification)
+    local cacheKey = basePath .. "_" .. tostring(colorModification.r) .. tostring(colorModification.g) .. tostring(colorModification.b)
+    
+    if materialCache[cacheKey] then
+        return materialCache[cacheKey]
+    end
+
+    local baseMat = Material(basePath)
+    local baseTexture = baseMat:GetTexture("$basetexture")
+    
+    if not baseTexture then 
+        print("[HDRI Cube] Error: No base texture found in", basePath)
+        return baseMat 
+    end
+
+    -- Create unique name for this modification
+    local textureName = "hdri_cube_modified_" .. os.time() .. "_" .. math.random(1000, 9999)
+    
+    -- Create render target
+    local rt = GetRenderTargetEx(
+        textureName,
+        baseTexture:Width(),
+        baseTexture:Height(),
+        RT_SIZE_LITERAL,
+        MATERIAL_RT_DEPTH_NONE,
+        0,
+        0,
+        IMAGE_FORMAT_RGBA8888
+    )
+
+    -- Now create the texture
+    render.PushRenderTarget(rt)
+    render.OverrideAlphaWriteEnable(true, true)
+    cam.Start2D()
+        render.Clear(0, 0, 0, 255)
+        
+        surface.SetMaterial(baseMat)
+        surface.SetDrawColor(
+            colorModification.r or 255,
+            colorModification.g or 255,
+            colorModification.b or 255,
+            colorModification.a or 255
+        )
+        surface.DrawTexturedRect(0, 0, rt:Width(), rt:Height())
+        
+    cam.End2D()
+    render.OverrideAlphaWriteEnable(false)
+    render.PopRenderTarget()
+
+    -- Create a new material that uses our render target directly
+    local newMat = CreateMaterial(textureName, "VertexLitGeneric", {
+        ["$basetexture"] = rt:GetName(),
+        ["$model"] = 1,
+        ["$nocull"] = 1
+    })
+
+    materialCache[cacheKey] = newMat
+    print("[HDRI Cube] Created new material:", textureName)
+    return newMat
+end
+
+function ENT:SetHDRIColor(color)
+    if not self.CurrentTexturePath then
+        self.CurrentTexturePath = "hdri_cube/default_texture"
+    end
+    
+    local newMat = CreateModifiedTexture(self.CurrentTexturePath, color)
+    if newMat then
+        self.Material = newMat
+        print("[HDRI Cube] Applied new color:", color.r, color.g, color.b)
+    else
+        print("[HDRI Cube] Failed to create modified texture!")
+    end
+end
+
+function ENT:SetHDRITexture(texturePath, color)
+    self.CurrentTexturePath = texturePath
+    self:SetHDRIColor(color or Color(255, 255, 255, 255))
+end
+
 local function CreateCubeMesh()
     local mesh = Mesh()
     local size = 6

@@ -1,4 +1,4 @@
-print("[HDRI Cube] Loading properties...") 
+print("[HDRI Cube] Loading properties")
 include("properties/hdri_cube_editor.lua")
 
 if SERVER then

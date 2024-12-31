@@ -96,6 +96,50 @@ local function CreateEditorPanel(ent)
     yRot.OnValueChanged = function() UpdateRotation() end
     zRot.OnValueChanged = function() UpdateRotation() end
 
+    -- Create color mixer
+    local colorMixer = vgui.Create("DColorMixer", frame)
+    colorMixer:Dock(TOP)
+    colorMixer:SetTall(200)
+    colorMixer:SetAlphaBar(true)
+    colorMixer:SetPalette(true)
+    colorMixer:SetColor(Color(255, 255, 255, 255))
+    
+    -- Add color apply button
+    local applyColor = vgui.Create("DButton", frame)
+    applyColor:Dock(TOP)
+    applyColor:SetText("Apply Color")
+    applyColor:DockMargin(5, 5, 5, 5)
+    applyColor:SetTall(30)
+    applyColor.DoClick = function()
+        local color = colorMixer:GetColor()
+        ent:SetHDRIColor(color)
+    end
+    
+    -- Add preset buttons
+    local presetPanel = vgui.Create("DPanel", frame)
+    presetPanel:Dock(TOP)
+    presetPanel:SetTall(100)
+    presetPanel:DockMargin(5, 5, 5, 5)
+    
+    local presets = {
+        ["Default"] = Color(255, 255, 255, 255),
+        ["Warm"] = Color(255, 200, 150, 255),
+        ["Cool"] = Color(150, 200, 255, 255),
+        ["Night"] = Color(100, 100, 150, 255)
+    }
+    
+    for name, color in pairs(presets) do
+        local btn = vgui.Create("DButton", presetPanel)
+        btn:Dock(LEFT)
+        btn:SetText(name)
+        btn:DockMargin(5, 5, 5, 5)
+        btn:SetWide(60)
+        btn.DoClick = function()
+            colorMixer:SetColor(color)
+            ent:SetHDRIColor(color)
+        end
+    end
+
     -- Reset button
     local resetButton = vgui.Create("DButton", frame)
     resetButton:Dock(TOP)
