@@ -5,6 +5,7 @@ ENT.RenderGroup = RENDERGROUP_BOTH
 local materialCache = {}
 local rtCache = {} -- Initialize the rtCache table
 local STATIC_RT_PREFIX = "hdri_static_rt_"
+local textureCache = {}
 
 _G.HDRICube_CleanupRenderTargets = function()
     local success, err = pcall(CleanupRenderTargets)
@@ -20,6 +21,15 @@ net.Receive("HDRICube_Cleanup", function()
         ent.CubeMesh = nil
     end
 end)
+
+local function GetCachedTextureName(color)
+    -- Create a unique name based on color values
+    return string.format("hdri_cache_%d_%d_%d", 
+        math.floor(color.r or 255),
+        math.floor(color.g or 255),
+        math.floor(color.b or 255)
+    )
+end
 
 local function CleanupMaterials()
     -- Clean up any materials created with CreateMaterial
@@ -120,12 +130,34 @@ end
 _G.HDRICube_CleanupRenderTargets = CleanupRenderTargets
 
 local function CreateModifiedTexture(basePath, colorModification)
-    local rtName = GetStaticRTName(colorModification)
-    DebugLog("Creating texture for", rtName)
+    local textureName = GetCachedTextureName(colorModification)
+    DebugLog("Creating texture for", textureName)
     
-    if materialCache[rtName] then
-        DebugLog("Found cached material for", rtName)
-        return materialCache[rtName]
+    -- Check if we have a cached version on disk
+    if file.Exists(textureName .. ".png", "DATA") then
+        DebugLog("Loading cached texture:", textureName)
+        local matName = "HDRICube_" .. textureName
+        
+        -- Create two temporary materials like in the example
+        local matblank = CreateMaterial(matName .. "_temp_blank", "UnlitGeneric", {
+            ["$basetexture"] = "color/white",
+            ["$model"] = 1,
+            ["$translucent"] = 0,
+        })
+        local matblankalpha = CreateMaterial(matName .. "_temp_alpha", "UnlitGeneric", {
+            ["$basetexture"] = "color/white",
+            ["$model"] = 1,
+            ["$translucent"] = 1,
+        })
+
+        -- Load from cached PNG
+        local matimg = Material("data/" .. textureName .. ".png", "smooth")
+        local tex = matimg:GetTexture("$basetexture")
+        if tex then
+            matblank:SetTexture("$basetexture", tex)
+            matblankalpha:SetTexture("$basetexture", tex)
+            return matblank
+        end
     end
 
     local baseMat = Material(basePath)
@@ -136,9 +168,25 @@ local function CreateModifiedTexture(basePath, colorModification)
         return baseMat 
     end
 
-    -- Create render target
-    local rt = GetRenderTargetEx(
-        rtName,
+    -- Create two temporary materials
+    local matName = "HDRICube_" .. textureName
+    local matblank = CreateMaterial(matName .. "_temp_blank", "UnlitGeneric", {
+        ["$basetexture"] = "color/white",
+        ["$model"] = 1,
+        ["$translucent"] = 0,
+    })
+    local matblankalpha = CreateMaterial(matName .. "_temp_alpha", "UnlitGeneric", {
+        ["$basetexture"] = "color/white",
+        ["$model"] = 1,
+        ["$translucent"] = 1,
+    })
+
+    matblank:SetTexture("$basetexture", baseTexture)
+    matblankalpha:SetTexture("$basetexture", baseTexture)
+
+    -- Create render target just like the example
+    local newtex = GetRenderTargetEx(
+        textureName,
         baseTexture:Width(),
         baseTexture:Height(),
         RT_SIZE_LITERAL,
@@ -148,38 +196,57 @@ local function CreateModifiedTexture(basePath, colorModification)
         IMAGE_FORMAT_RGBA8888
     )
     
-    -- Store render target in cache
-    rtCache[rtName] = rt
-
-    -- Now create the texture
-    render.PushRenderTarget(rt)
-    render.OverrideAlphaWriteEnable(true, true)
+    render.PushRenderTarget(newtex)
     cam.Start2D()
-        render.Clear(0, 0, 0, 255)
+        render.OverrideAlphaWriteEnable(true, true)
+        render.SetWriteDepthToDestAlpha(false)
         
-        surface.SetMaterial(baseMat)
+        render.ClearDepth()
+        render.Clear(0, 0, 0, 0)
+
+        -- Draw base texture
+        render.SetMaterial(matblank)
+        surface.SetDrawColor(
+            colorModification.r or 255,
+            colorModification.g or 255,
+            colorModification.b or 255,
+            255
+        )
+        surface.DrawTexturedRect(0, 0, newtex:Width(), newtex:Height())
+
+        -- Draw alpha texture
+        render.SetMaterial(matblankalpha)
         surface.SetDrawColor(
             colorModification.r or 255,
             colorModification.g or 255,
             colorModification.b or 255,
             colorModification.a or 255
         )
-        surface.DrawTexturedRect(0, 0, rt:Width(), rt:Height())
-        
+        surface.DrawTexturedRect(0, 0, newtex:Width(), newtex:Height())
+
+        render.OverrideAlphaWriteEnable(false)
     cam.End2D()
-    render.OverrideAlphaWriteEnable(false)
+
+    -- Capture and save exactly like the example
+    local data = render.Capture({
+        format = "png",
+        x = 0,
+        y = 0,
+        h = newtex:Height(),
+        w = newtex:Width(),
+        alpha = true
+    })
+    
+    local pictureFile = file.Open(textureName .. ".png", "wb", "DATA")
+    if pictureFile then
+        pictureFile:Write(data)
+        pictureFile:Close()
+    end
+    
     render.PopRenderTarget()
 
-    -- Create a new material with deterministic name
-    local newMat = CreateMaterial(rtName, "VertexLitGeneric", {
-        ["$basetexture"] = rt:GetName(),
-        ["$model"] = 1,
-        ["$nocull"] = 1
-    })
-
-    materialCache[rtName] = newMat
-    print("[HDRI Cube] Created new material:", rtName)
-    return newMat
+    -- Return the blank material (which has our texture)
+    return matblank
 end
 
 function ENT:SetHDRIColor(color)
@@ -190,9 +257,9 @@ function ENT:SetHDRIColor(color)
     local newMat = CreateModifiedTexture(self.CurrentTexturePath, color)
     if newMat then
         self.Material = newMat
-        print("[HDRI Cube] Applied new color:", color.r, color.g, color.b)
+        DebugLog("Applied new color:", color.r, color.g, color.b)
     else
-        print("[HDRI Cube] Failed to create modified texture!")
+        DebugLog("Failed to create modified texture!")
     end
 end
 
