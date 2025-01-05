@@ -1,0 +1,5 @@
+*.dds filter=lfs diff=lfs merge=lfs -text
+city-night.dds filter=lfs diff=lfs merge=lfs -text
+midday.dds filter=lfs diff=lfs merge=lfs -text
+ouchy.dds filter=lfs diff=lfs merge=lfs -text
+puresun.dds filter=lfs diff=lfs merge=lfs -text
