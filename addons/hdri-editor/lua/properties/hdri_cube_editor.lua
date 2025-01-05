@@ -19,6 +19,7 @@ local function CleanupEditorPanel()
 end
 
 -- Editor Panel creation
+-- Editor Panel creation
 local function CreateEditorPanel(ent)
     if IsValid(HDRI_EditorPanel) then
         HDRI_EditorPanel:SetVisible(true)
@@ -28,12 +29,14 @@ local function CreateEditorPanel(ent)
 
     local frame = vgui.Create("DFrame")
     HDRI_EditorPanel = frame
-    frame:SetSize(300, 500)
+    frame:SetSize(300, 700) -- Increased height to accommodate animator
     frame:SetTitle("HDRI Cube Editor")
     frame:SetDraggable(true)  -- Enable dragging
     frame:SetSizable(true)
     frame:SetDeleteOnClose(true)
     frame:ShowCloseButton(true)  -- Ensure close button is visible
+    frame:SetMinHeight(700) -- Set minimum height to ensure controls don't get cramped
+    frame:SetMinWidth(300)  -- Set minimum width to maintain layout
     
     -- Set position: use last known position or default to cursor position
     if lastPos then
@@ -48,8 +51,19 @@ local function CreateEditorPanel(ent)
         lastPos = { x = self:GetX(), y = self:GetY() }
     end
 
+    -- Create scroll panel to handle overflow
+    local scroll = vgui.Create("DScrollPanel", frame)
+    scroll:Dock(FILL)
+    scroll:DockMargin(0, 0, 0, 0)
+
+    -- Create main container panel
+    local container = vgui.Create("DPanel", scroll)
+    container:Dock(TOP)
+    container:DockMargin(0, 0, 0, 0)
+    container:SetTall(800) -- Make it taller than needed to accommodate all elements
+
     -- Create container for rotation controls
-    local rotationPanel = vgui.Create("DPanel", frame)
+    local rotationPanel = vgui.Create("DPanel", container)
     rotationPanel:Dock(TOP)
     rotationPanel:SetTall(120)
     rotationPanel:DockMargin(5, 5, 5, 5)
@@ -114,7 +128,7 @@ local function CreateEditorPanel(ent)
     zRot.OnValueChanged = function() UpdateRotation() end
 
     -- Create color mixer
-    local colorMixer = vgui.Create("DColorMixer", frame)
+    local colorMixer = vgui.Create("DColorMixer", container)
     colorMixer:Dock(TOP)
     colorMixer:SetTall(200)
     colorMixer:SetAlphaBar(true)
@@ -122,7 +136,7 @@ local function CreateEditorPanel(ent)
     colorMixer:SetColor(Color(255, 255, 255, 255))
     
     -- Add color apply button
-    local applyColor = vgui.Create("DButton", frame)
+    local applyColor = vgui.Create("DButton", container)
     applyColor:Dock(TOP)
     applyColor:SetText("Apply Color")
     applyColor:DockMargin(5, 5, 5, 5)
@@ -133,7 +147,7 @@ local function CreateEditorPanel(ent)
     end
     
     -- Add preset buttons
-    local presetPanel = vgui.Create("DPanel", frame)
+    local presetPanel = vgui.Create("DPanel", container)
     presetPanel:Dock(TOP)
     presetPanel:SetTall(100)
     presetPanel:DockMargin(5, 5, 5, 5)
@@ -162,7 +176,7 @@ local function CreateEditorPanel(ent)
     end
 
     -- Reset button
-    local resetButton = vgui.Create("DButton", frame)
+    local resetButton = vgui.Create("DButton", container)
     resetButton:Dock(TOP)
     resetButton:SetText("Reset Rotation")
     resetButton:DockMargin(5, 5, 5, 5)
@@ -172,6 +186,204 @@ local function CreateEditorPanel(ent)
         yRot:SetValue(0)
         zRot:SetValue(0)
         UpdateRotation()
+    end
+
+    -- Animator Panel
+    local animatorPanel = vgui.Create("DPanel", container)
+    animatorPanel:Dock(TOP)
+    animatorPanel:SetTall(180)
+    animatorPanel:DockMargin(5, 5, 5, 5)
+    
+    -- Animator Label
+    local animLabel = vgui.Create("DLabel", animatorPanel)
+    animLabel:SetText("Rotation Animator")
+    animLabel:SetPos(5, 5)
+    animLabel:SetSize(290, 20)
+    animLabel:SetTextColor(Color(255, 255, 255))
+    
+    -- Create animator controls for each axis
+    local function CreateAxisAnimator(axis, y)
+        local container = vgui.Create("DPanel", animatorPanel)
+        container:SetPos(5, y)
+        container:SetSize(280, 45)
+        
+        local label = vgui.Create("DLabel", container)
+        label:SetText(axis)
+        label:SetPos(5, 2)
+        label:SetSize(20, 20)
+        label:SetTextColor(Color(255, 255, 255))
+        
+        -- Start value
+        local startLabel = vgui.Create("DLabel", container)
+        startLabel:SetText("Start")
+        startLabel:SetPos(30, 2)
+        startLabel:SetSize(30, 20)
+        startLabel:SetTextColor(Color(255, 255, 255))
+        
+        local startValue = vgui.Create("DNumberWang", container)
+        startValue:SetPos(65, 2)
+        startValue:SetSize(40, 20)
+        startValue:SetMinMax(0, 360)
+        startValue:SetValue(0)
+        
+        -- End value
+        local endLabel = vgui.Create("DLabel", container)
+        endLabel:SetText("End")
+        endLabel:SetPos(115, 2)
+        endLabel:SetSize(30, 20)
+        endLabel:SetTextColor(Color(255, 255, 255))
+        
+        local endValue = vgui.Create("DNumberWang", container)
+        endValue:SetPos(145, 2)
+        endValue:SetSize(40, 20)
+        endValue:SetMinMax(0, 360)
+        endValue:SetValue(360)
+        
+        -- Speed control
+        local speedLabel = vgui.Create("DLabel", container)
+        speedLabel:SetText("Speed")
+        speedLabel:SetPos(195, 2)
+        speedLabel:SetSize(35, 20)
+        speedLabel:SetTextColor(Color(255, 255, 255))
+        
+        local speedValue = vgui.Create("DNumberWang", container)
+        speedValue:SetPos(235, 2)
+        speedValue:SetSize(40, 20)
+        speedValue:SetMinMax(0.1, 10)
+        speedValue:SetDecimals(1)
+        speedValue:SetValue(1.0)
+        
+        -- Enable checkbox
+        local enableBox = vgui.Create("DCheckBox", container)
+        enableBox:SetPos(5, 25)
+        enableBox:SetValue(false)
+        
+        local enableLabel = vgui.Create("DLabel", container)
+        enableLabel:SetText("Enable " .. axis .. " Axis Animation")
+        enableLabel:SetPos(25, 25)
+        enableLabel:SetSize(150, 20)
+        enableLabel:SetTextColor(Color(255, 255, 255))
+        
+        return {
+            start = startValue,
+            finish = endValue,
+            speed = speedValue,
+            enabled = enableBox,
+            current = 0,
+            direction = 1
+        }
+    end
+    
+    local animators = {
+        x = CreateAxisAnimator("X", 30),
+        y = CreateAxisAnimator("Y", 80),
+        z = CreateAxisAnimator("Z", 130)
+    }
+    
+    -- Animation control buttons
+    local controlsPanel = vgui.Create("DPanel", animatorPanel)
+    controlsPanel:SetPos(5, 155)
+    controlsPanel:SetSize(280, 25)
+    
+    local startAllBtn = vgui.Create("DButton", controlsPanel)
+    startAllBtn:SetPos(5, 2)
+    startAllBtn:SetSize(80, 20)
+    startAllBtn:SetText("Start All")
+    
+    local stopAllBtn = vgui.Create("DButton", controlsPanel)
+    stopAllBtn:SetPos(95, 2)
+    stopAllBtn:SetSize(80, 20)
+    stopAllBtn:SetText("Stop All")
+    stopAllBtn:SetEnabled(false)
+    
+    local isAnimating = false
+    local animationTimer = nil
+    
+    local function UpdateAnimation()
+        if not IsValid(ent) or not IsValid(frame) then
+            if timer.Exists("HDRICube_Animation") then
+                timer.Remove("HDRICube_Animation")
+            end
+            return
+        end
+    
+        local anyEnabled = false
+        local newAngles = Angle(
+            xRot:GetValue(),
+            yRot:GetValue(),
+            zRot:GetValue()
+        )
+    
+        for axis, animator in pairs(animators) do
+            if animator.enabled:GetChecked() then
+                anyEnabled = true
+                local start = animator.start:GetValue()
+                local finish = animator.finish:GetValue()
+                local speed = animator.speed:GetValue()
+                
+                animator.current = animator.current + (speed * animator.direction)
+                
+                local value
+                if animator.direction == 1 and animator.current >= finish then
+                    animator.direction = -1
+                    value = finish
+                elseif animator.direction == -1 and animator.current <= start then
+                    animator.direction = 1
+                    value = start
+                else
+                    value = animator.current
+                end
+                
+                if axis == "x" then
+                    newAngles.p = value
+                    xRot:SetValue(value)
+                elseif axis == "y" then
+                    newAngles.y = value
+                    yRot:SetValue(value)
+                elseif axis == "z" then
+                    newAngles.r = value
+                    zRot:SetValue(value)
+                end
+            end
+        end
+    
+        if anyEnabled then
+            net.Start("HDRICube_UpdateRotation")
+                net.WriteEntity(ent)
+                net.WriteAngle(newAngles)
+            net.SendToServer()
+        else
+            timer.Remove("HDRICube_Animation")
+            isAnimating = false
+            startAllBtn:SetEnabled(true)
+            stopAllBtn:SetEnabled(false)
+        end
+    end
+    
+    startAllBtn.DoClick = function()
+        if isAnimating then return end
+        
+        -- Initialize current values
+        for axis, animator in pairs(animators) do
+            if animator.enabled:GetChecked() then
+                animator.current = animator.start:GetValue()
+                animator.direction = 1
+            end
+        end
+        
+        timer.Create("HDRICube_Animation", 0.016, 0, UpdateAnimation) -- ~60fps
+        isAnimating = true
+        startAllBtn:SetEnabled(false)
+        stopAllBtn:SetEnabled(true)
+    end
+    
+    stopAllBtn.DoClick = function()
+        if timer.Exists("HDRICube_Animation") then
+            timer.Remove("HDRICube_Animation")
+        end
+        isAnimating = false
+        startAllBtn:SetEnabled(true)
+        stopAllBtn:SetEnabled(false)
     end
 
     frame:MakePopup()
