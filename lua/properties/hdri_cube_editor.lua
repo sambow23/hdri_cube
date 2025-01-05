@@ -1,6 +1,23 @@
 local HDRI_EditorPanel = nil
 local lastPos = nil -- Store the last position
 
+local function CleanupEditorPanel()
+    if IsValid(HDRI_EditorPanel) then
+        -- Remove any active hooks
+        hook.Remove("Think", "HDRICubeEditor_Monitor")
+        
+        -- Store last position before removal
+        lastPos = {
+            x = HDRI_EditorPanel:GetX(),
+            y = HDRI_EditorPanel:GetY()
+        }
+        
+        -- Remove the panel
+        HDRI_EditorPanel:Remove()
+        HDRI_EditorPanel = nil
+    end
+end
+
 -- Editor Panel creation
 local function CreateEditorPanel(ent)
     if IsValid(HDRI_EditorPanel) then
@@ -135,6 +152,10 @@ local function CreateEditorPanel(ent)
         btn:DockMargin(5, 5, 5, 5)
         btn:SetWide(60)
         btn.DoClick = function()
+            print("[HDRI Color Debug] Applying preset:", name, 
+                  "R:", color.r, 
+                  "G:", color.g, 
+                  "B:", color.b)
             colorMixer:SetColor(color)
             ent:SetHDRIColor(color)
         end
@@ -207,3 +228,5 @@ hook.Add("EntityRemoved", "HDRICubeEditor_Cleanup", function(ent)
         hook.Remove("Think", "HDRICubeEditor_Monitor")
     end
 end)
+
+hook.Add("VGUIFinished", "HDRICube_CleanupUI", CleanupEditorPanel)

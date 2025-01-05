@@ -29,3 +29,12 @@ net.Receive("HDRICube_UpdateRotation", function(len, ply)
         ent:SetCustomRotation(newAng)
     end
 end)
+
+function ENT:OnRemove()
+    -- Notify clients to cleanup their resources
+    net.Start("HDRICube_Cleanup")
+        net.WriteEntity(self)
+    net.Broadcast()
+end
+
+util.AddNetworkString("HDRICube_Cleanup")

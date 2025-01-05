@@ -3,28 +3,142 @@ include("shared.lua")
 ENT.RenderGroup = RENDERGROUP_BOTH
 
 local materialCache = {}
+local rtCache = {} -- Initialize the rtCache table
+local STATIC_RT_PREFIX = "hdri_static_rt_"
+
+_G.HDRICube_CleanupRenderTargets = function()
+    local success, err = pcall(CleanupRenderTargets)
+    if not success then
+        DebugLog("Error during cleanup:", err)
+    end
+end
+
+net.Receive("HDRICube_Cleanup", function()
+    local ent = net.ReadEntity()
+    if IsValid(ent) and ent.CubeMesh then
+        ent.CubeMesh:Destroy()
+        ent.CubeMesh = nil
+    end
+end)
+
+local function CleanupMaterials()
+    -- Clean up any materials created with CreateMaterial
+    for name, material in pairs(materialCache) do
+        if name:StartWith("HDRICube_") then
+            if type(material) == "IMaterial" and material.Destroy then
+                material:Destroy()
+                DebugLog("Destroyed material:", name)
+            end
+        end
+    end
+
+    -- Clean up any GetRenderTarget textures that might be lingering
+    for rtName, rt in pairs(rtCache) do
+        if rt and type(rt) == "ITexture" then
+            -- Safety check for render.ReleaseRenderTarget
+            if render and render.ReleaseRenderTarget then
+                local success, err = pcall(function()
+                    render.ReleaseRenderTarget(rt)
+                end)
+                if success then
+                    DebugLog("Released RT:", rtName)
+                else
+                    DebugLog("Failed to release RT:", rtName, err)
+                end
+            else
+                DebugLog("render.ReleaseRenderTarget not available")
+            end
+        end
+    end
+end
+
+local function DebugLog(...)
+    local args = {...}
+    local str = "[HDRI Debug] "
+    for i, v in ipairs(args) do
+        str = str .. tostring(v) .. " "
+    end
+    print(str)
+end
+
+local function GetStaticRTName(color)
+    -- Create a completely static name based only on color values
+    return string.format("%s%d_%d_%d", 
+        STATIC_RT_PREFIX,
+        math.floor(color.r or 255),
+        math.floor(color.g or 255),
+        math.floor(color.b or 255)
+    )
+end
+
+local function CleanupRenderTargets()
+    DebugLog("Starting full HDRI cleanup")
+    
+    -- Safety check for render context
+    if render and render.GetRenderTarget then
+        local currentRT = render.GetRenderTarget()
+        if currentRT then
+            render.SetRenderTarget(nil)
+            DebugLog("Reset render target")
+        end
+    end
+    
+    -- Cleanup materials first
+    pcall(CleanupMaterials)
+    
+    -- Make sure we're not in the middle of rendering
+    if render and render.SetRenderTarget then
+        render.SetRenderTarget(nil)
+    end
+    
+    -- Clear both caches safely
+    if materialCache then
+        table.Empty(materialCache)
+    end
+    if rtCache then
+        table.Empty(rtCache)
+    end
+    
+    -- Force garbage collection
+    collectgarbage("collect")
+    
+    -- Remove hooks safely
+    if hook and hook.Remove then
+        hook.Remove("Think", "HDRICubeEditor_Monitor")
+        hook.Remove("PostRender", "HDRICube_RenderUpdate")
+    end
+    
+    -- Clear any pending timers safely
+    if timer and timer.Remove then
+        timer.Remove("HDRICube_UpdateTimer")
+    end
+    
+    DebugLog("Cleanup completed")
+end
+
+-- Make cleanup function globally accessible
+_G.HDRICube_CleanupRenderTargets = CleanupRenderTargets
 
 local function CreateModifiedTexture(basePath, colorModification)
-    local cacheKey = basePath .. "_" .. tostring(colorModification.r) .. tostring(colorModification.g) .. tostring(colorModification.b)
+    local rtName = GetStaticRTName(colorModification)
+    DebugLog("Creating texture for", rtName)
     
-    if materialCache[cacheKey] then
-        return materialCache[cacheKey]
+    if materialCache[rtName] then
+        DebugLog("Found cached material for", rtName)
+        return materialCache[rtName]
     end
 
     local baseMat = Material(basePath)
     local baseTexture = baseMat:GetTexture("$basetexture")
     
     if not baseTexture then 
-        print("[HDRI Cube] Error: No base texture found in", basePath)
+        DebugLog("Error: No base texture found in", basePath)
         return baseMat 
     end
 
-    -- Create unique name for this modification
-    local textureName = "hdri_cube_modified_" .. os.time() .. "_" .. math.random(1000, 9999)
-    
     -- Create render target
     local rt = GetRenderTargetEx(
-        textureName,
+        rtName,
         baseTexture:Width(),
         baseTexture:Height(),
         RT_SIZE_LITERAL,
@@ -33,6 +147,9 @@ local function CreateModifiedTexture(basePath, colorModification)
         0,
         IMAGE_FORMAT_RGBA8888
     )
+    
+    -- Store render target in cache
+    rtCache[rtName] = rt
 
     -- Now create the texture
     render.PushRenderTarget(rt)
@@ -53,15 +170,15 @@ local function CreateModifiedTexture(basePath, colorModification)
     render.OverrideAlphaWriteEnable(false)
     render.PopRenderTarget()
 
-    -- Create a new material that uses our render target directly
-    local newMat = CreateMaterial(textureName, "VertexLitGeneric", {
+    -- Create a new material with deterministic name
+    local newMat = CreateMaterial(rtName, "VertexLitGeneric", {
         ["$basetexture"] = rt:GetName(),
         ["$model"] = 1,
         ["$nocull"] = 1
     })
 
-    materialCache[cacheKey] = newMat
-    print("[HDRI Cube] Created new material:", textureName)
+    materialCache[rtName] = newMat
+    print("[HDRI Cube] Created new material:", rtName)
     return newMat
 end
 
@@ -147,12 +264,17 @@ end
 function ENT:Initialize()
     self.CubeMesh = CreateCubeMesh()
     
-    -- Create a stable material instance
-    self.Material = CreateMaterial("HDRICube_Material_" .. self:EntIndex(), "VertexLitGeneric", {
-        ["$basetexture"] = "hdri_cube/default_texture",
-        ["$model"] = 1,
-        ["$nocull"] = 1
-    })
+    -- Create a stable material instance with safety check
+    local matName = "HDRICube_Material_" .. self:EntIndex()
+    self.Material = Material(matName) -- Check if it already exists
+    
+    if not self.Material or self.Material:IsError() then
+        self.Material = CreateMaterial(matName, "VertexLitGeneric", {
+            ["$basetexture"] = "hdri_cube/default_texture",
+            ["$model"] = 1,
+            ["$nocull"] = 1
+        })
+    end
 end
 
 function ENT:Draw()
@@ -177,4 +299,39 @@ function ENT:Draw()
     cam.PushModelMatrix(matrix)
     self.CubeMesh:Draw()
     cam.PopModelMatrix()
+end
+
+function ENT:OnRemove()
+    local success, err = pcall(function()
+        if self.CubeMesh and type(self.CubeMesh) == "IMesh" then
+            self.CubeMesh:Destroy()
+            self.CubeMesh = nil
+        end
+        
+        if self.Material and type(self.Material) == "IMaterial" and self.Material.Destroy then
+            self.Material:Destroy()
+            self.Material = nil
+        end
+        
+        -- Cleanup any entity-specific render targets
+        local entityRTs = {}
+        for rtName, rt in pairs(rtCache) do
+            if rtName:find(tostring(self:EntIndex())) then
+                table.insert(entityRTs, rtName)
+            end
+        end
+        
+        for _, rtName in ipairs(entityRTs) do
+            if rtCache[rtName] and render and render.ReleaseRenderTarget then
+                pcall(function()
+                    render.ReleaseRenderTarget(rtCache[rtName])
+                    rtCache[rtName] = nil
+                end)
+            end
+        end
+    end)
+    
+    if not success then
+        DebugLog("Error during entity cleanup:", err)
+    end
 end
