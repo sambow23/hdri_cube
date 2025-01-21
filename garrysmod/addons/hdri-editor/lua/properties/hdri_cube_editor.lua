@@ -174,13 +174,14 @@ local function CreateEditorPanel(ent)
     zRot.OnValueChanged = UpdateRotation
 
     -- Color Control Section
-    local colorContent = CreateSection(container, "HDRI Presets", 190) -- Increased height for two rows
+    local colorContent = CreateSection(container, "HDRI Presets", 190)
     
     local presetPanel = vgui.Create("DPanel", colorContent)
     presetPanel:Dock(FILL)
     presetPanel:DockMargin(10, 10, 10, 10)
     presetPanel.Paint = function() end
 
+    -- Organized presets in numerical order
     local presets = {
         ["1"] = {color = Color(255, 255, 255, 255)},
         ["2"] = {color = Color(255, 200, 150, 255)},
@@ -189,8 +190,17 @@ local function CreateEditorPanel(ent)
         ["5"] = {color = Color(200, 60, 150, 255)},
         ["6"] = {color = Color(210, 160, 150, 255)},
         ["7"] = {color = Color(200, 80, 100, 255)},
-        ["8"] = {color = Color(255, 100, 40, 255)},
+        ["8"] = {color = Color(255, 100, 40, 255)}
     }
+
+    -- Sort presets by their numerical keys
+    local sortedPresets = {}
+    for k, v in pairs(presets) do
+        table.insert(sortedPresets, {key = k, data = v})
+    end
+    table.sort(sortedPresets, function(a, b) 
+        return tonumber(a.key) < tonumber(b.key)
+    end)
 
     -- Calculate button size based on panel width
     presetPanel.PerformLayout = function(self, w, h)
@@ -199,20 +209,24 @@ local function CreateEditorPanel(ent)
         local totalMargins = margin * (buttonsPerRow - 1)
         local buttonSize = (w - totalMargins) / buttonsPerRow
         
-        -- Position buttons
-        for i, btn in pairs(self:GetChildren()) do
-            local col = (i - 1) % buttonsPerRow
-            local row = math.floor((i - 1) / buttonsPerRow)
-            
-            local x = col * (buttonSize + margin)
-            local y = row * (buttonSize + margin)
-            
-            btn:SetPos(x, y)
-            btn:SetSize(buttonSize, buttonSize)
+        -- Position buttons using sorted order
+        for i, entry in ipairs(sortedPresets) do
+            local btn = self:GetChildren()[i]
+            if btn then
+                local col = (i - 1) % buttonsPerRow
+                local row = math.floor((i - 1) / buttonsPerRow)
+                
+                local x = col * (buttonSize + margin)
+                local y = row * (buttonSize + margin)
+                
+                btn:SetPos(x, y)
+                btn:SetSize(buttonSize, buttonSize)
+            end
         end
     end
 
-    for name, data in pairs(presets) do
+    -- Create buttons using sorted order
+    for _, entry in ipairs(sortedPresets) do
         local btn = vgui.Create("DButton", presetPanel)
         btn:SetText("")
         
@@ -221,7 +235,10 @@ local function CreateEditorPanel(ent)
             draw.RoundedBox(4, 0, 0, w, h, bgColor)
             
             -- Draw color preview
-            draw.RoundedBox(4, 2, 2, w-4, h-4, data.color)
+            draw.RoundedBox(4, 2, 2, w-4, h-4, entry.data.color)
+            
+            -- Draw preset number
+            draw.SimpleText(entry.key, "DermaDefault", w/2, h/2, Color(0, 0, 0, 180), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
             
             if self:IsHovered() then
                 draw.RoundedBox(4, 0, h-2, w, 2, Color(70, 130, 180))
@@ -229,7 +246,7 @@ local function CreateEditorPanel(ent)
         end
 
         btn.DoClick = function()
-            ent:SetHDRIColor(data.color)
+            ent:SetHDRIColor(entry.data.color)
             surface.PlaySound("ui/buttonclickrelease.wav")
         end
     end
