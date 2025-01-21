@@ -1,6 +1,16 @@
 print("[HDRI Cube] Loading properties")
 
 if CLIENT then
+
+    list.Set("SpawnableEntities", "hdri_cube_editor", {
+        PrintName = "HDRI Editor",
+        ClassName = "hdri_cube_editor",
+        Category = "Editors",
+        Author = "CR",
+        Information = "A custom skydome using HDRI textures, powered by RTX Remix",
+        IconOverride = "entities/hdri_cube_editor.png" --
+    })
+
     -- Force immediate cleanup before loading anything else
     timer.Simple(0, function()
         if _G.HDRICube_CleanupRenderTargets then
@@ -45,7 +55,7 @@ if CLIENT then
             panel:CheckBox("Auto-spawn on join", "hdricube_autospawn")
             
             -- Button to spawn manually
-            panel:Button("Spawn HDRI Cube", "hdricube_spawn")
+            panel:Button("Spawn HDRI Editor Below Player", "hdricube_spawn")
             
             -- Button to open editor
             panel:Button("Open Editor", "hdricube_openeditor")

@@ -1,7 +1,7 @@
 ENT.Type = "anim"
 ENT.Base = "base_entity"
-ENT.PrintName = "HDRI Cube"
-ENT.Author = "Your Name"
+ENT.PrintName = "HDRI Editor"
+ENT.Author = "CR"
 ENT.Spawnable = true
 ENT.AdminOnly = false
 ENT.Category = "Editors"
