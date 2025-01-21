@@ -38,7 +38,7 @@ if CLIENT then
     end
 
     hook.Add("PopulateToolMenu", "HDRICube_AddMenuSettings", function()
-        spawnmenu.AddToolMenuOption("Utilities", "HDRI Cube", "HDRICubeSettings", "Settings", "", "", function(panel)
+        spawnmenu.AddToolMenuOption("Utilities", "User", "RTX_HDRI", "#HDRI Editor", "", "", function(panel)
             panel:ClearControls()
             
             -- Enable/Disable auto-spawn
@@ -51,7 +51,7 @@ if CLIENT then
             panel:Button("Open Editor", "hdricube_openeditor")
             
             -- Add help text
-            panel:Help("The HDRI Cube will follow below your feet when spawned.")
+            panel:Help("The HDRI Cube is parented to the player's feet when spawned to prevent culling.")
         end)
     end)
 
