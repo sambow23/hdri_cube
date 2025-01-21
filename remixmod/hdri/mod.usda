@@ -1,0 +1,970 @@
+#usda 1.0
+(
+    customLayerData = {
+        string lightspeed_game_name = "Garry's Mod (x64)"
+        string lightspeed_layer_type = "replacement"
+    }
+    endTimeCode = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 24
+    upAxis = "Z"
+)
+
+over "RootNode"
+{
+    over "meshes"
+    {
+        over "mesh_2AC39AAE51817DCA"
+        {
+            over "mesh"
+            {
+                custom uniform bool remix_category:sky = 1
+            }
+        }
+
+		# HDRI 1
+        over "mesh_C63099654EC4ECB0"
+        {
+            def Xform "ref_4c7cc65cc25646348067cc4b4666a890" (
+                prepend references = @./hdri-sky.usd@
+            )
+            {
+                custom bool IsRemixRef = 1
+                double3 xformOp:rotateXYZ = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                over "XForms"
+                {
+                    float3 xformOp:rotateXYZ = (90, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                    over "World"
+                    {
+                        over "Sphere"
+                        {
+                            over "Sphere"
+                            {
+                                custom bool remix_category:sky = 1
+                                float3 xformOp:rotateXYZ = (0, 0, 0)
+                                float3 xformOp:scale = (6.8596406, 6.8596406, 6.8596406)
+                                double3 xformOp:translate = (0.0025492360414562884, 0.0010473203461356508, 0.15405533542629296)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                            }
+                        }
+
+                        over "Looks"
+                        {
+                            over "Material_001"
+                            {
+                                over "Shader"
+                                {
+                                    color3f inputs:diffuse_color_constant = (0.000001, 9.9999e-7, 9.999902e-7) (
+                                        customData = {
+                                            float3 default = (0.2, 0.2, 0.2)
+                                            dictionary range = {
+                                                float3 max = (1, 1, 1)
+                                                float3 min = (0, 0, 0)
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo Color"
+                                        doc = "The base albedo color.  (Used if no texture is specified)"
+                                        hidden = false
+                                        renderType = "color"
+                                    )
+                                    asset inputs:diffuse_texture = @@ (
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo/Opacity Map"
+                                        doc = "The texture specifying the albedo value and the optional opacity value to use in the alpha channel"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    float inputs:emissive_intensity = 1 (
+                                        customData = {
+                                            float default = 40
+                                            dictionary range = {
+                                                float max = 65504
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Intensity"
+                                        doc = "Intensity of the emission"
+                                        hidden = false
+                                    )
+                                    asset inputs:emissive_mask_texture = @./textures/puresun.dds@ (
+                                        colorSpace = "auto"
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Mask Map"
+                                        doc = "The texture masking the emissive color"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    bool inputs:enable_emission = 1 (
+                                        customData = {
+                                            bool default = 0
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Enable Emission"
+                                        doc = "Enables the emission of light from the material"
+                                        hidden = false
+                                    )
+                                    float inputs:reflection_roughness_constant = 1 (
+                                        customData = {
+                                            float default = 0.5
+                                            dictionary range = {
+                                                float max = 1
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Roughness Amount"
+                                        doc = "Higher roughness values lead to more blurry reflections, use 0 for perfectly smooth.  (Used if no texture is specified)."
+                                        hidden = false
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+		
+		# HDRI 2
+        over "mesh_7391496CDA5F5EFC"
+        {
+            def Xform "ref_543d6a16624f4a158f15d235fc58c3ca" (
+                prepend references = @./hdri-sky.usd@
+            )
+            {
+                custom bool IsRemixRef = 1
+                double3 xformOp:rotateXYZ = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                over "XForms"
+                {
+                    float3 xformOp:rotateXYZ = (90, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                    over "World"
+                    {
+                        over "Sphere"
+                        {
+                            over "Sphere"
+                            {
+                                custom bool remix_category:sky = 1
+                                float3 xformOp:rotateXYZ = (0, 0, 0)
+                                float3 xformOp:scale = (6.8596406, 6.8596406, 6.8596406)
+                                double3 xformOp:translate = (0.0025492360414562884, 0.0010473203461356508, 0.15405533542629296)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                            }
+                        }
+
+                        over "Looks"
+                        {
+                            over "Material_001"
+                            {
+                                over "Shader"
+                                {
+                                    color3f inputs:diffuse_color_constant = (0.000001, 9.9999e-7, 9.999902e-7) (
+                                        customData = {
+                                            float3 default = (0.2, 0.2, 0.2)
+                                            dictionary range = {
+                                                float3 max = (1, 1, 1)
+                                                float3 min = (0, 0, 0)
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo Color"
+                                        doc = "The base albedo color.  (Used if no texture is specified)"
+                                        hidden = false
+                                        renderType = "color"
+                                    )
+                                    asset inputs:diffuse_texture = @@ (
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo/Opacity Map"
+                                        doc = "The texture specifying the albedo value and the optional opacity value to use in the alpha channel"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    float inputs:emissive_intensity = 1 (
+                                        customData = {
+                                            float default = 40
+                                            dictionary range = {
+                                                float max = 65504
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Intensity"
+                                        doc = "Intensity of the emission"
+                                        hidden = false
+                                    )
+                                    asset inputs:emissive_mask_texture = @./textures/aurora.dds@ (
+                                        colorSpace = "auto"
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Mask Map"
+                                        doc = "The texture masking the emissive color"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    bool inputs:enable_emission = 1 (
+                                        customData = {
+                                            bool default = 0
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Enable Emission"
+                                        doc = "Enables the emission of light from the material"
+                                        hidden = false
+                                    )
+                                    float inputs:reflection_roughness_constant = 1 (
+                                        customData = {
+                                            float default = 0.5
+                                            dictionary range = {
+                                                float max = 1
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Roughness Amount"
+                                        doc = "Higher roughness values lead to more blurry reflections, use 0 for perfectly smooth.  (Used if no texture is specified)."
+                                        hidden = false
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+		# HDRI 3
+        over "mesh_256004AE4E27D939"
+        {
+            def Xform "ref_e551f1a4742a4e9da9e7ae654fec6891" (
+                prepend references = @./hdri-sky.usd@
+            )
+            {
+                custom bool IsRemixRef = 1
+                double3 xformOp:rotateXYZ = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                over "XForms"
+                {
+                    float3 xformOp:rotateXYZ = (90, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                    over "World"
+                    {
+                        over "Sphere"
+                        {
+                            over "Sphere"
+                            {
+                                custom bool remix_category:sky = 1
+                                float3 xformOp:rotateXYZ = (0, 0, 0)
+                                float3 xformOp:scale = (6.8596406, 6.8596406, 6.8596406)
+                                double3 xformOp:translate = (0.0025492360414562884, 0.0010473203461356508, 0.15405533542629296)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                            }
+                        }
+
+                        over "Looks"
+                        {
+                            over "Material_001"
+                            {
+                                over "Shader"
+                                {
+                                    color3f inputs:diffuse_color_constant = (0.000001, 9.9999e-7, 9.999902e-7) (
+                                        customData = {
+                                            float3 default = (0.2, 0.2, 0.2)
+                                            dictionary range = {
+                                                float3 max = (1, 1, 1)
+                                                float3 min = (0, 0, 0)
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo Color"
+                                        doc = "The base albedo color.  (Used if no texture is specified)"
+                                        hidden = false
+                                        renderType = "color"
+                                    )
+                                    asset inputs:diffuse_texture = @@ (
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo/Opacity Map"
+                                        doc = "The texture specifying the albedo value and the optional opacity value to use in the alpha channel"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    float inputs:emissive_intensity = 1 (
+                                        customData = {
+                                            float default = 40
+                                            dictionary range = {
+                                                float max = 65504
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Intensity"
+                                        doc = "Intensity of the emission"
+                                        hidden = false
+                                    )
+                                    asset inputs:emissive_mask_texture = @./textures/midday.dds@ (
+                                        colorSpace = "auto"
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Mask Map"
+                                        doc = "The texture masking the emissive color"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    bool inputs:enable_emission = 1 (
+                                        customData = {
+                                            bool default = 0
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Enable Emission"
+                                        doc = "Enables the emission of light from the material"
+                                        hidden = false
+                                    )
+                                    float inputs:reflection_roughness_constant = 1 (
+                                        customData = {
+                                            float default = 0.5
+                                            dictionary range = {
+                                                float max = 1
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Roughness Amount"
+                                        doc = "Higher roughness values lead to more blurry reflections, use 0 for perfectly smooth.  (Used if no texture is specified)."
+                                        hidden = false
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+		
+		# HDRI 4		
+        over "mesh_1625101ACEB9EA4C"
+        {
+            def Xform "ref_93be6dff4a6f494db7d27c4cc649346c" (
+                prepend references = @./hdri-sky.usd@
+            )
+            {
+                custom bool IsRemixRef = 1
+                double3 xformOp:rotateXYZ = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                over "XForms"
+                {
+                    float3 xformOp:rotateXYZ = (90, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                    over "World"
+                    {
+                        over "Sphere"
+                        {
+                            over "Sphere"
+                            {
+                                custom bool remix_category:sky = 1
+                                float3 xformOp:rotateXYZ = (0, 0, 0)
+                                float3 xformOp:scale = (6.8596406, 6.8596406, 6.8596406)
+                                double3 xformOp:translate = (0.0025492360414562884, 0.0010473203461356508, 0.15405533542629296)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                            }
+                        }
+
+                        over "Looks"
+                        {
+                            over "Material_001"
+                            {
+                                over "Shader"
+                                {
+                                    color3f inputs:diffuse_color_constant = (0.000001, 9.9999e-7, 9.999902e-7) (
+                                        customData = {
+                                            float3 default = (0.2, 0.2, 0.2)
+                                            dictionary range = {
+                                                float3 max = (1, 1, 1)
+                                                float3 min = (0, 0, 0)
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo Color"
+                                        doc = "The base albedo color.  (Used if no texture is specified)"
+                                        hidden = false
+                                        renderType = "color"
+                                    )
+                                    asset inputs:diffuse_texture = @@ (
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo/Opacity Map"
+                                        doc = "The texture specifying the albedo value and the optional opacity value to use in the alpha channel"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    float inputs:emissive_intensity = 0.2 (
+                                        customData = {
+                                            float default = 40
+                                            dictionary range = {
+                                                float max = 65504
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Intensity"
+                                        doc = "Intensity of the emission"
+                                        hidden = false
+                                    )
+                                    asset inputs:emissive_mask_texture = @./textures/sunset.dds@ (
+                                        colorSpace = "auto"
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Mask Map"
+                                        doc = "The texture masking the emissive color"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    bool inputs:enable_emission = 1 (
+                                        customData = {
+                                            bool default = 0
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Enable Emission"
+                                        doc = "Enables the emission of light from the material"
+                                        hidden = false
+                                    )
+                                    float inputs:reflection_roughness_constant = 1 (
+                                        customData = {
+                                            float default = 0.5
+                                            dictionary range = {
+                                                float max = 1
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Roughness Amount"
+                                        doc = "Higher roughness values lead to more blurry reflections, use 0 for perfectly smooth.  (Used if no texture is specified)."
+                                        hidden = false
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+		# HDRI 5
+        over "mesh_3BF7AC691724E703"
+        {
+            def Xform "ref_3749738b956c4d57af6fe314eaade632" (
+                prepend references = @./hdri-sky.usd@
+            )
+            {
+                custom bool IsRemixRef = 1
+                double3 xformOp:rotateXYZ = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                over "XForms"
+                {
+                    float3 xformOp:rotateXYZ = (90, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                    over "World"
+                    {
+                        over "Sphere"
+                        {
+                            over "Sphere"
+                            {
+                                custom bool remix_category:sky = 1
+                                float3 xformOp:rotateXYZ = (0, 0, 0)
+                                float3 xformOp:scale = (6.8596406, 6.8596406, 6.8596406)
+                                double3 xformOp:translate = (0.0025492360414562884, 0.0010473203461356508, 0.15405533542629296)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                            }
+                        }
+
+                        over "Looks"
+                        {
+                            over "Material_001"
+                            {
+                                over "Shader"
+                                {
+                                    color3f inputs:diffuse_color_constant = (0.000001, 9.9999e-7, 9.999902e-7) (
+                                        customData = {
+                                            float3 default = (0.2, 0.2, 0.2)
+                                            dictionary range = {
+                                                float3 max = (1, 1, 1)
+                                                float3 min = (0, 0, 0)
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo Color"
+                                        doc = "The base albedo color.  (Used if no texture is specified)"
+                                        hidden = false
+                                        renderType = "color"
+                                    )
+                                    asset inputs:diffuse_texture = @@ (
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo/Opacity Map"
+                                        doc = "The texture specifying the albedo value and the optional opacity value to use in the alpha channel"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    float inputs:emissive_intensity = 1 (
+                                        customData = {
+                                            float default = 40
+                                            dictionary range = {
+                                                float max = 65504
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Intensity"
+                                        doc = "Intensity of the emission"
+                                        hidden = false
+                                    )
+                                    asset inputs:emissive_mask_texture = @./textures/nightsky.dds@ (
+                                        colorSpace = "auto"
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Mask Map"
+                                        doc = "The texture masking the emissive color"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    bool inputs:enable_emission = 1 (
+                                        customData = {
+                                            bool default = 0
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Enable Emission"
+                                        doc = "Enables the emission of light from the material"
+                                        hidden = false
+                                    )
+                                    float inputs:reflection_roughness_constant = 1 (
+                                        customData = {
+                                            float default = 0.5
+                                            dictionary range = {
+                                                float max = 1
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Roughness Amount"
+                                        doc = "Higher roughness values lead to more blurry reflections, use 0 for perfectly smooth.  (Used if no texture is specified)."
+                                        hidden = false
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+		# HDRI 6
+        over "mesh_81613CDC186E1629"
+        {
+            def Xform "ref_dfd1634000fa43e6a67b6c1b48df3a11" (
+                prepend references = @./hdri-sky.usd@
+            )
+            {
+                custom bool IsRemixRef = 1
+                double3 xformOp:rotateXYZ = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                over "XForms"
+                {
+                    float3 xformOp:rotateXYZ = (90, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                    over "World"
+                    {
+                        over "Sphere"
+                        {
+                            over "Sphere"
+                            {
+                                custom bool remix_category:sky = 1
+                                float3 xformOp:rotateXYZ = (0, 0, 0)
+                                float3 xformOp:scale = (6.8596406, 6.8596406, 6.8596406)
+                                double3 xformOp:translate = (0.0025492360414562884, 0.0010473203461356508, 0.15405533542629296)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                            }
+                        }
+
+                        over "Looks"
+                        {
+                            over "Material_001"
+                            {
+                                over "Shader"
+                                {
+                                    color3f inputs:diffuse_color_constant = (0.000001, 9.9999e-7, 9.999902e-7) (
+                                        customData = {
+                                            float3 default = (0.2, 0.2, 0.2)
+                                            dictionary range = {
+                                                float3 max = (1, 1, 1)
+                                                float3 min = (0, 0, 0)
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo Color"
+                                        doc = "The base albedo color.  (Used if no texture is specified)"
+                                        hidden = false
+                                        renderType = "color"
+                                    )
+                                    asset inputs:diffuse_texture = @@ (
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo/Opacity Map"
+                                        doc = "The texture specifying the albedo value and the optional opacity value to use in the alpha channel"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    float inputs:emissive_intensity = 0.2 (
+                                        customData = {
+                                            float default = 40
+                                            dictionary range = {
+                                                float max = 65504
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Intensity"
+                                        doc = "Intensity of the emission"
+                                        hidden = false
+                                    )
+                                    asset inputs:emissive_mask_texture = @./textures/moon.dds@ (
+                                        colorSpace = "auto"
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Mask Map"
+                                        doc = "The texture masking the emissive color"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    bool inputs:enable_emission = 1 (
+                                        customData = {
+                                            bool default = 0
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Enable Emission"
+                                        doc = "Enables the emission of light from the material"
+                                        hidden = false
+                                    )
+                                    float inputs:reflection_roughness_constant = 1 (
+                                        customData = {
+                                            float default = 0.5
+                                            dictionary range = {
+                                                float max = 1
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Roughness Amount"
+                                        doc = "Higher roughness values lead to more blurry reflections, use 0 for perfectly smooth.  (Used if no texture is specified)."
+                                        hidden = false
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+		
+		# HDRI 7		
+        over "mesh_66927228A67274A9"
+        {
+            def Xform "ref_ade667481ece400d9d2420583330a19c" (
+                prepend references = @./hdri-sky.usd@
+            )
+            {
+                custom bool IsRemixRef = 1
+                double3 xformOp:rotateXYZ = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                over "XForms"
+                {
+                    float3 xformOp:rotateXYZ = (90, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                    over "World"
+                    {
+                        over "Sphere"
+                        {
+                            over "Sphere"
+                            {
+                                custom bool remix_category:sky = 1
+                                float3 xformOp:rotateXYZ = (0, 0, 0)
+                                float3 xformOp:scale = (6.8596406, 6.8596406, 6.8596406)
+                                double3 xformOp:translate = (0.0025492360414562884, 0.0010473203461356508, 0.15405533542629296)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                            }
+                        }
+
+                        over "Looks"
+                        {
+                            over "Material_001"
+                            {
+                                over "Shader"
+                                {
+                                    color3f inputs:diffuse_color_constant = (0.000001, 9.9999e-7, 9.999902e-7) (
+                                        customData = {
+                                            float3 default = (0.2, 0.2, 0.2)
+                                            dictionary range = {
+                                                float3 max = (1, 1, 1)
+                                                float3 min = (0, 0, 0)
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo Color"
+                                        doc = "The base albedo color.  (Used if no texture is specified)"
+                                        hidden = false
+                                        renderType = "color"
+                                    )
+                                    asset inputs:diffuse_texture = @@ (
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo/Opacity Map"
+                                        doc = "The texture specifying the albedo value and the optional opacity value to use in the alpha channel"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    float inputs:emissive_intensity = 0.2 (
+                                        customData = {
+                                            float default = 40
+                                            dictionary range = {
+                                                float max = 65504
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Intensity"
+                                        doc = "Intensity of the emission"
+                                        hidden = false
+                                    )
+                                    asset inputs:emissive_mask_texture = @./textures/nightpark.dds@ (
+                                        colorSpace = "auto"
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Mask Map"
+                                        doc = "The texture masking the emissive color"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    bool inputs:enable_emission = 1 (
+                                        customData = {
+                                            bool default = 0
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Enable Emission"
+                                        doc = "Enables the emission of light from the material"
+                                        hidden = false
+                                    )
+                                    float inputs:reflection_roughness_constant = 1 (
+                                        customData = {
+                                            float default = 0.5
+                                            dictionary range = {
+                                                float max = 1
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Roughness Amount"
+                                        doc = "Higher roughness values lead to more blurry reflections, use 0 for perfectly smooth.  (Used if no texture is specified)."
+                                        hidden = false
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+		
+		# HDRI 8		
+        over "mesh_339D513E281947C9"
+        {
+            def Xform "ref_6b268642064a4656b369b0cc5d7e3c75" (
+                prepend references = @./hdri-sky.usd@
+            )
+            {
+                custom bool IsRemixRef = 1
+                double3 xformOp:rotateXYZ = (0, 0, 0)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                over "XForms"
+                {
+                    float3 xformOp:rotateXYZ = (90, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (0, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                    over "World"
+                    {
+                        over "Sphere"
+                        {
+                            over "Sphere"
+                            {
+                                custom bool remix_category:sky = 1
+                                float3 xformOp:rotateXYZ = (0, 0, 0)
+                                float3 xformOp:scale = (6.8596406, 6.8596406, 6.8596406)
+                                double3 xformOp:translate = (0.0025492360414562884, 0.0010473203461356508, 0.15405533542629296)
+                                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                            }
+                        }
+
+                        over "Looks"
+                        {
+                            over "Material_001"
+                            {
+                                over "Shader"
+                                {
+                                    color3f inputs:diffuse_color_constant = (0.000001, 9.9999e-7, 9.999902e-7) (
+                                        customData = {
+                                            float3 default = (0.2, 0.2, 0.2)
+                                            dictionary range = {
+                                                float3 max = (1, 1, 1)
+                                                float3 min = (0, 0, 0)
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo Color"
+                                        doc = "The base albedo color.  (Used if no texture is specified)"
+                                        hidden = false
+                                        renderType = "color"
+                                    )
+                                    asset inputs:diffuse_texture = @@ (
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Albedo/Opacity Map"
+                                        doc = "The texture specifying the albedo value and the optional opacity value to use in the alpha channel"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    float inputs:emissive_intensity = 1 (
+                                        customData = {
+                                            float default = 40
+                                            dictionary range = {
+                                                float max = 65504
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Intensity"
+                                        doc = "Intensity of the emission"
+                                        hidden = false
+                                    )
+                                    asset inputs:emissive_mask_texture = @./textures/nightpark2.dds@ (
+                                        colorSpace = "auto"
+                                        customData = {
+                                            asset default = @@
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Emissive Mask Map"
+                                        doc = "The texture masking the emissive color"
+                                        hidden = false
+                                        renderType = "texture_2d"
+                                    )
+                                    bool inputs:enable_emission = 1 (
+                                        customData = {
+                                            bool default = 0
+                                        }
+                                        displayGroup = "Emission"
+                                        displayName = "Enable Emission"
+                                        doc = "Enables the emission of light from the material"
+                                        hidden = false
+                                    )
+                                    float inputs:reflection_roughness_constant = 1 (
+                                        customData = {
+                                            float default = 0.5
+                                            dictionary range = {
+                                                float max = 1
+                                                float min = 0
+                                            }
+                                        }
+                                        displayGroup = "Base Material"
+                                        displayName = "Roughness Amount"
+                                        doc = "Higher roughness values lead to more blurry reflections, use 0 for perfectly smooth.  (Used if no texture is specified)."
+                                        hidden = false
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
