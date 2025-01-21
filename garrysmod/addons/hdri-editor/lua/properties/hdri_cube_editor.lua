@@ -321,18 +321,14 @@ local function CreateEditorPanel(ent)
                 local finish = animator.finish:GetValue()
                 local speed = animator.speed:GetValue()
                 
-                animator.current = animator.current + (speed * animator.direction)
+                animator.current = animator.current + speed
                 
-                local value
-                if animator.direction == 1 and animator.current >= finish then
-                    animator.direction = -1
-                    value = finish
-                elseif animator.direction == -1 and animator.current <= start then
-                    animator.direction = 1
-                    value = start
-                else
-                    value = animator.current
+                -- When we reach the end, wrap back to start
+                if animator.current >= finish then
+                    animator.current = start + (animator.current - finish)
                 end
+                
+                local value = animator.current
                 
                 if axis == "x" then
                     newAngles.p = value
@@ -367,7 +363,6 @@ local function CreateEditorPanel(ent)
         for axis, animator in pairs(animators) do
             if animator.enabled:GetChecked() then
                 animator.current = animator.start:GetValue()
-                animator.direction = 1
             end
         end
         
@@ -407,6 +402,13 @@ local function CreateEditorPanel(ent)
         end
     end)
 end
+
+net.Receive("HDRICube_OpenEditor", function()
+    local ent = net.ReadEntity()
+    if IsValid(ent) then
+        CreateEditorPanel(ent)
+    end
+end)
 
 -- HDRI Cube Editor Property
 properties.Add("hdricube_editor", {
