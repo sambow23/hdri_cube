@@ -186,10 +186,10 @@ local function CreateEditorPanel(ent)
         ["2"] = {color = Color(255, 200, 150, 255)},
         ["3"] = {color = Color(150, 200, 255, 255)},
         ["4"] = {color = Color(100, 100, 150, 255)},
-        ["5"] = {color = Color(200, 100, 150, 255)},
-        ["6"] = {color = Color(300, 100, 150, 255)},
-        ["7"] = {color = Color(400, 100, 150, 255)},
-        ["8"] = {color = Color(800, 100, 150, 255)},
+        ["5"] = {color = Color(200, 60, 150, 255)},
+        ["6"] = {color = Color(210, 160, 150, 255)},
+        ["7"] = {color = Color(200, 80, 100, 255)},
+        ["8"] = {color = Color(255, 100, 40, 255)},
     }
 
     -- Calculate button size based on panel width
