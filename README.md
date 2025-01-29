@@ -2,11 +2,11 @@
 https://github.com/user-attachments/assets/c6902c13-4ad9-410f-ad59-f3b77d2e3ff7
 
 ### Installation
-1. Copy the folders inside `garrysmod` to `GarrysModRTX\garrysmod\`
-2. Download the [HDRIs](https://drive.google.com/file/d/1VjzIQBZ_aGG2lbWghXtryz93HIWDSzIr/view?usp=sharing), extract the `.dds` files inside the archive to `GarrysModRTX\rtx-remix\mods\hdri\textures`
-3. Open the game and spawn the HDRI Editor in `Entities > Editors`
-4. Right click the cube and select `Open HDRI Editor`
-5. Select one of the 8 presets to spawn a HDRI skydome
+1. Copy the folders inside to `GarrysModRTX`
+3. Download the [HDRIs](https://drive.google.com/file/d/1VjzIQBZ_aGG2lbWghXtryz93HIWDSzIr/view?usp=sharing), extract the `.dds` files inside the archive to `GarrysModRTX\rtx-remix\mods\hdri\textures`
+4. Open the game and spawn the HDRI Editor in `Entities > Editors`
+5. Right click the cube and select `Open HDRI Editor`
+6. Select one of the 8 presets to spawn a HDRI skydome
 
 <img width="200" alt="image" src="https://github.com/user-attachments/assets/5f599369-46bd-473f-acd7-59488fd1c9ea" />
 
