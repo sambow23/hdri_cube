@@ -2,7 +2,7 @@
 https://github.com/user-attachments/assets/c6902c13-4ad9-410f-ad59-f3b77d2e3ff7
 
 ### Installation
-1. Copy the folders inside to `GarrysModRTX`
+1. Download the repo as a .zip, extract the folders to your `GarrysModRTX` installation directory.
 3. Download the [HDRIs](https://drive.google.com/file/d/1VjzIQBZ_aGG2lbWghXtryz93HIWDSzIr/view?usp=sharing), extract the `.dds` files inside the archive to `GarrysModRTX\rtx-remix\mods\hdri\textures`
 4. Open the game and spawn the HDRI Editor in `Entities > Editors`
 5. Right click the cube and select `Open HDRI Editor`
