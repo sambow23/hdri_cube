@@ -15,5 +15,5 @@ https://github.com/user-attachments/assets/c6902c13-4ad9-410f-ad59-f3b77d2e3ff7
 
 7. Profit
 
-### Importing HDRIs
-⚠️ Guide In-Progress ⚠️
+### Importing HDRIs Guide:
+[![Installing Custom HDRIs | Garry's Mod RTX](https://img.youtube.com/vi/PKBcJt32sEM/0.jpg)](https://www.youtube.com/watch?v=PKBcJt32sEM)
