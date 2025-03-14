@@ -1,14 +1,21 @@
 print("[HDRI Cube] Loading properties")
 
 if CLIENT then
-
-    list.Set("SpawnableEntities", "hdri_cube_editor", {
-        PrintName = "HDRI Editor",
-        ClassName = "hdri_cube_editor",
-        Category = "Editors",
-        Author = "CR",
-        Information = "A custom skydome using HDRI textures, powered by RTX Remix",
-        IconOverride = "entities/hdri_cube_editor.png" --
+    
+    -- Add HDRI Editor to context menu (C menu)
+    list.Set("DesktopWindows", "HDRIEditor", {
+        title = "HDRI Editor",
+        icon = "data/hdri_cache_200_80_100.png",
+        init = function(icon, window)
+            -- Close the spawned window since we're opening our own editor
+            window:Close()
+            
+            -- Spawn HDRI cube under player and open editor
+            RunConsoleCommand("hdricube_spawn")
+            timer.Simple(0.1, function() 
+                RunConsoleCommand("hdricube_openeditor")
+            end)
+        end
     })
 
     -- Force immediate cleanup before loading anything else
@@ -46,27 +53,6 @@ if CLIENT then
     for _, hookName in ipairs(hooks) do
         hook.Add(hookName, "HDRICube_Cleanup_" .. hookName, SafeCleanup)
     end
-
-    hook.Add("PopulateToolMenu", "HDRICube_AddMenuSettings", function()
-        spawnmenu.AddToolMenuOption("Utilities", "User", "RTX_HDRI", "#HDRI Editor", "", "", function(panel)
-            panel:ClearControls()
-            
-            -- Enable/Disable auto-spawn
-            panel:CheckBox("Auto-spawn on join", "hdricube_autospawn")
-            
-            -- Button to spawn manually
-            panel:Button("Spawn HDRI Editor Below Player", "hdricube_spawn")
-            
-            -- Button to open editor
-            panel:Button("Open Editor", "hdricube_openeditor")
-            
-            -- Add help text
-            panel:Help("The HDRI Cube is parented to the player's feet when spawned to prevent culling.")
-        end)
-    end)
-
-    -- Create ConVars
-    CreateClientConVar("hdricube_autospawn", "1", true, false, "Auto-spawn HDRI Cube on join")
 end
 
 include("properties/hdri_cube_editor.lua")

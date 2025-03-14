@@ -2,7 +2,7 @@ ENT.Type = "anim"
 ENT.Base = "base_entity"
 ENT.PrintName = "HDRI Editor"
 ENT.Author = "CR"
-ENT.Spawnable = true
+ENT.Spawnable = false
 ENT.AdminOnly = false
 ENT.Category = "Editors"
 
