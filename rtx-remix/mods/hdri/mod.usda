@@ -23,7 +23,7 @@ over "RootNode"
         }
 
 		# HDRI 1
-        over "mesh_1A4F9E8BEA9A05EF"
+        over "mesh_BADAEB645E82B75F"
         {
             def Xform "ref_4c7cc65cc25646348067cc4b4666a890" (
                 prepend references = @./hdri-sky.usd@
