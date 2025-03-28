@@ -1,6 +1,14 @@
 local HDRI_EditorPanel = nil
 local lastPos = nil -- Store the last position
 
+local function ToggleDirectionalLights(shouldIgnore)
+    if SetIgnoreGameDirectionalLights then
+        SetIgnoreGameDirectionalLights(shouldIgnore)
+    else
+        print("[HDRI Editor] Warning: SetIgnoreGameDirectionalLights function not available")
+    end
+end
+
 local function CleanupEditorPanel()
     if IsValid(HDRI_EditorPanel) then
         -- Remove any active hooks
@@ -248,6 +256,9 @@ local function CreateEditorPanel(ent)
         btn.DoClick = function()
             ent:SetHDRIColor(entry.data.color)
             surface.PlaySound("ui/buttonclickrelease.wav")
+            
+            -- Enable ignoring directional lights when using presets
+            ToggleDirectionalLights(true)
         end
     end
 
@@ -483,6 +494,7 @@ local function CreateEditorPanel(ent)
     resetBtn:DockMargin(5, 0, 5, 0)
 
     frame:MakePopup()
+    ToggleDirectionalLights(false)
 
     -- Add fade in animation
     frame:SetAlpha(0)
