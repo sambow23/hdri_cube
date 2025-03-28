@@ -71,7 +71,7 @@ if SERVER then
         -- Spawn new HDRI Cube
         local cube = ents.Create("hdri_cube_editor")
         if IsValid(cube) then
-            cube:SetPos(ply:GetPos() - Vector(0, 0, 100)) -- Position below player
+            cube:SetPos(ply:GetPos() - Vector(0, 0, 0)) -- Position below player
             cube:SetAngles(Angle(0, 0, 0))
             cube:Spawn()
             cube:SetParent(ply)

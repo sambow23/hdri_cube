@@ -7,14 +7,24 @@ util.AddNetworkString("HDRICube_UpdateRotation")
 
 function ENT:Initialize()
     self:SetModel("models/hunter/blocks/cube025x025x025.mdl")
-    self:PhysicsInit(SOLID_VPHYSICS)
-    self:SetMoveType(MOVETYPE_VPHYSICS)
-    self:SetSolid(SOLID_VPHYSICS)
     
+    -- Non-physical setup
+    self:PhysicsInit(SOLID_NONE)
+    self:SetMoveType(MOVETYPE_NONE)
+    self:SetSolid(SOLID_NONE)
+    
+    -- Ensure no collisions or physics
+    self:SetCollisionGroup(COLLISION_GROUP_NONE)
+    self:DrawShadow(false)
+    
+    -- Prevent any physics calculations
     local phys = self:GetPhysicsObject()
     if IsValid(phys) then
-        phys:Wake()
         phys:EnableMotion(false)
+        phys:EnableCollisions(false)
+        phys:EnableGravity(false)
+        phys:EnableDrag(false)
+        phys:Sleep()
     end
     
     self:SetCustomRotation(Angle(0, 0, 0))
