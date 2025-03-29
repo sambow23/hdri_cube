@@ -2,10 +2,22 @@ local HDRI_EditorPanel = nil
 local lastPos = nil -- Store the last position
 
 local function ToggleDirectionalLights(shouldIgnore)
-    if SetIgnoreGameDirectionalLights then
-        SetIgnoreGameDirectionalLights(shouldIgnore)
+    -- Use the global function if available
+    if _G.ToggleDirectionalLights then
+        return _G.ToggleDirectionalLights(shouldIgnore)
     else
-        print("[HDRI Editor] Warning: SetIgnoreGameDirectionalLights function not available")
+        -- Fall back to direct call with safety
+        if SetIgnoreGameDirectionalLights then
+            local success, result = pcall(SetIgnoreGameDirectionalLights, shouldIgnore)
+            if not success and cookie.GetNumber("HDRIEditor_RTXWarningShown", 0) == 0 then
+                -- This will be handled by the global version in later calls
+                print("[HDRI Editor] Warning: SetIgnoreGameDirectionalLights failed")
+            end
+            return success
+        else
+            print("[HDRI Editor] Warning: SetIgnoreGameDirectionalLights function not available")
+            return false
+        end
     end
 end
 
