@@ -22,8 +22,9 @@ over "RootNode"
             }
         }
 
-		# HDRI 1
-        over "mesh_BADAEB645E82B75F"
+        over "mesh_BADAEB645E82B75F" (
+            references = None
+        )
         {
             def Xform "ref_4c7cc65cc25646348067cc4b4666a890" (
                 prepend references = @./hdri-sky.usd@
@@ -99,7 +100,7 @@ over "RootNode"
                                         doc = "Intensity of the emission"
                                         hidden = false
                                     )
-                                    asset inputs:emissive_mask_texture = @./textures/cobble.dds@ (
+                                    asset inputs:emissive_mask_texture = @./textures/puresun.dds@ (
                                         colorSpace = "auto"
                                         customData = {
                                             asset default = @@
@@ -139,9 +140,10 @@ over "RootNode"
                 }
             }
         }
-		
-		# HDRI 2
-        over "mesh_004C200D23C9175C"
+
+        over "mesh_004C200D23C9175C" (
+            references = None
+        )
         {
             def Xform "ref_543d6a16624f4a158f15d235fc58c3ca" (
                 prepend references = @./hdri-sky.usd@
@@ -258,8 +260,9 @@ over "RootNode"
             }
         }
 
-		# HDRI 3
-        over "mesh_002BD9605D941608"
+        over "mesh_002BD9605D941608" (
+            references = None
+        )
         {
             def Xform "ref_e551f1a4742a4e9da9e7ae654fec6891" (
                 prepend references = @./hdri-sky.usd@
@@ -375,9 +378,10 @@ over "RootNode"
                 }
             }
         }
-		
-		# HDRI 4		
-        over "mesh_74649EE322924656"
+
+        over "mesh_74649EE322924656" (
+            references = None
+        )
         {
             def Xform "ref_93be6dff4a6f494db7d27c4cc649346c" (
                 prepend references = @./hdri-sky.usd@
@@ -494,8 +498,9 @@ over "RootNode"
             }
         }
 
-		# HDRI 5
-        over "mesh_C7B201D990AEF832"
+        over "mesh_C7B201D990AEF832" (
+            references = None
+        )
         {
             def Xform "ref_3749738b956c4d57af6fe314eaade632" (
                 prepend references = @./hdri-sky.usd@
@@ -612,8 +617,9 @@ over "RootNode"
             }
         }
 
-		# HDRI 6
-        over "mesh_B2389B9A0C50C705"
+        over "mesh_B2389B9A0C50C705" (
+            references = None
+        )
         {
             def Xform "ref_dfd1634000fa43e6a67b6c1b48df3a11" (
                 prepend references = @./hdri-sky.usd@
@@ -729,9 +735,10 @@ over "RootNode"
                 }
             }
         }
-		
-		# HDRI 7		
-        over "mesh_2DE601E7147C64E6"
+
+        over "mesh_2DE601E7147C64E6" (
+            references = None
+        )
         {
             def Xform "ref_ade667481ece400d9d2420583330a19c" (
                 prepend references = @./hdri-sky.usd@
@@ -847,9 +854,10 @@ over "RootNode"
                 }
             }
         }
-		
-		# HDRI 8		
-        over "mesh_47FB5BDEEA055862"
+
+        over "mesh_47FB5BDEEA055862" (
+            references = None
+        )
         {
             def Xform "ref_6b268642064a4656b369b0cc5d7e3c75" (
                 prepend references = @./hdri-sky.usd@

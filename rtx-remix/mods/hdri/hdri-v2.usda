@@ -2,29 +2,89 @@
 (
     customLayerData = {
         dictionary SelectionHistoryList = {
-            string "0" = "/RootNode/instances/inst_4D7E0BD1F5D41DA1_0/ref_2e1ace3f51e44d9f89b5a269564b6ef9/XForms"
-            string "1" = "/RootNode/instances/inst_4D7E0BD1F5D41DA1_0/mesh"
-            string "10" = "/RootNode/instances/inst_124A4099F5B1BE22_0/mesh"
-            string "11" = ""
-            string "12" = "/RootNode/instances/inst_B5B3D20357405144_0/mesh"
-            string "13" = ""
-            string "14" = "/RootNode/meshes"
-            string "15" = ""
-            string "16" = "/RootNode/instances/inst_124A4099F5B1BE22_0/ref_426dfe3f002a431e9219c48b2625916f/XForms"
-            string "17" = "/RootNode/instances/inst_124A4099F5B1BE22_0/mesh"
-            string "18" = ""
-            string "19" = "/RootNode/instances/inst_B5B3D20357405144_0/mesh"
-            string "2" = "/RootNode/instances/inst_A56154A8866D0C62_0/ref_48534d9a0f854020873a078f29086351/XForms"
-            string "20" = ""
-            string "21" = "/RootNode/meshes"
-            string "22" = ""
-            string "3" = "/RootNode/instances/inst_A56154A8866D0C62_0/mesh"
-            string "4" = "/RootNode/instances/inst_CE3AC32969F433F2_0/ref_160bc6eb3bff4df08cdc37e3c947144d/XForms"
-            string "5" = "/RootNode/instances/inst_CE3AC32969F433F2_0/mesh"
-            string "6" = "/RootNode/instances/inst_5C296C95A00C7C1C_0/ref_dbdcc75428eb48208c8d535b1d708d43/XForms"
-            string "7" = "/RootNode/instances/inst_5C296C95A00C7C1C_0/mesh"
-            string "8" = "/RootNode/instances/inst_D0184436942D5FBA_0/mesh"
-            string "9" = "/RootNode/instances/inst_124A4099F5B1BE22_0/ref_426dfe3f002a431e9219c48b2625916f/XForms"
+            string "0" = "/RootNode/instances/inst_47FB5BDEEA055862_0/mesh"
+            string "1" = "/RootNode/instances/inst_47FB5BDEEA055862_0/ref_6b268642064a4656b369b0cc5d7e3c75/XForms"
+            string "10" = "/RootNode/instances/inst_A2BC685BADBDFF70_0/mesh"
+            string "11" = "/RootNode/instances/inst_74649EE322924656_0/ref_93be6dff4a6f494db7d27c4cc649346c/XForms"
+            string "12" = "/RootNode/instances/inst_74649EE322924656_0/mesh"
+            string "13" = "/RootNode/instances/inst_002BD9605D941608_0/ref_e551f1a4742a4e9da9e7ae654fec6891/XForms"
+            string "14" = "/RootNode/instances/inst_002BD9605D941608_0/mesh"
+            string "15" = "/RootNode/instances/inst_A2BC685BADBDFF70_0/mesh"
+            string "16" = "/RootNode/instances/inst_004C200D23C9175C_0/ref_543d6a16624f4a158f15d235fc58c3ca/XForms"
+            string "17" = "/RootNode/instances/inst_004C200D23C9175C_0/mesh"
+            string "18" = "/RootNode/instances/inst_004C200D23C9175C_0/ref_543d6a16624f4a158f15d235fc58c3ca"
+            string "19" = "/RootNode/instances/inst_004C200D23C9175C_0/ref_543d6a16624f4a158f15d235fc58c3ca/XForms/World/Sphere/Sphere"
+            string "2" = "/RootNode/instances/inst_47FB5BDEEA055862_0/mesh"
+            string "20" = "/RootNode/meshes/mesh_004C200D23C9175C/ref_543d6a16624f4a158f15d235fc58c3ca/XForms/World/Sphere/Sphere"
+            string "21" = "/RootNode/instances/inst_BADAEB645E82B75F_0/ref_4c7cc65cc25646348067cc4b4666a890/XForms"
+            string "22" = "/RootNode/instances/inst_BADAEB645E82B75F_0/mesh"
+            string "23" = "/RootNode/instances/inst_BADAEB645E82B75F_0/ref_4c7cc65cc25646348067cc4b4666a890/XForms/World/Sphere/Sphere"
+            string "24" = "/RootNode/instances/inst_BADAEB645E82B75F_0/ref_4c7cc65cc25646348067cc4b4666a890/XForms"
+            string "25" = "/RootNode/meshes/mesh_BADAEB645E82B75F/ref_4c7cc65cc25646348067cc4b4666a890"
+            string "26" = "/RootNode/instances/inst_BADAEB645E82B75F_0/mesh"
+            string "27" = "/RootNode/meshes/mesh_BADAEB645E82B75F"
+            string "28" = "/RootNode/meshes/mesh_BADAEB645E82B75F/ref_4c7cc65cc25646348067cc4b4666a890"
+            string "29" = "/RootNode/instances/inst_BADAEB645E82B75F_0/mesh"
+            string "3" = "/RootNode/instances/inst_2DE601E7147C64E6_0/ref_ade667481ece400d9d2420583330a19c/XForms"
+            string "30" = ""
+            string "31" = "/RootNode/meshes"
+            string "32" = ""
+            string "33" = "/RootNode/meshes"
+            string "34" = ""
+            string "35" = "/RootNode/meshes"
+            string "36" = ""
+            string "37" = "/RootNode/meshes"
+            string "38" = ""
+            string "39" = "/RootNode/instances/inst_BADAEB645E82B75F_0/mesh"
+            string "4" = "/RootNode/instances/inst_2DE601E7147C64E6_0/mesh"
+            string "40" = "/RootNode/meshes/mesh_BADAEB645E82B75F"
+            string "41" = "/RootNode/meshes/mesh_BADAEB645E82B75F/ref_4c7cc65cc25646348067cc4b4666a890"
+            string "42" = "/RootNode/instances/inst_BADAEB645E82B75F_0/mesh"
+            string "43" = ""
+            string "44" = "/RootNode/meshes"
+            string "45" = ""
+            string "46" = "/RootNode/meshes"
+            string "47" = ""
+            string "48" = "/RootNode/meshes"
+            string "49" = ""
+            string "5" = "/RootNode/instances/inst_B2389B9A0C50C705_0/ref_dfd1634000fa43e6a67b6c1b48df3a11/XForms"
+            string "50" = "/RootNode/meshes"
+            string "51" = ""
+            string "52" = "/RootNode/instances/inst_BADAEB645E82B75F_0/ref_4c7cc65cc25646348067cc4b4666a890/XForms"
+            string "53" = "/RootNode/instances/inst_BADAEB645E82B75F_0/mesh"
+            string "54" = "/RootNode/instances/inst_BADAEB645E82B75F_0/ref_4c7cc65cc25646348067cc4b4666a890/XForms/World/Sphere/Sphere"
+            string "55" = "/RootNode/instances/inst_BADAEB645E82B75F_0/ref_4c7cc65cc25646348067cc4b4666a890/XForms"
+            string "56" = "/RootNode/meshes/mesh_BADAEB645E82B75F/ref_4c7cc65cc25646348067cc4b4666a890"
+            string "57" = "/RootNode/instances/inst_BADAEB645E82B75F_0/mesh"
+            string "58" = "/RootNode/meshes/mesh_BADAEB645E82B75F"
+            string "59" = "/RootNode/meshes/mesh_BADAEB645E82B75F/ref_4c7cc65cc25646348067cc4b4666a890"
+            string "6" = "/RootNode/instances/inst_B2389B9A0C50C705_0/mesh"
+            string "60" = "/RootNode/instances/inst_BADAEB645E82B75F_0/mesh"
+            string "61" = ""
+            string "62" = "/RootNode/meshes"
+            string "63" = ""
+            string "64" = "/RootNode/meshes"
+            string "65" = ""
+            string "66" = "/RootNode/meshes"
+            string "67" = ""
+            string "68" = "/RootNode/meshes"
+            string "69" = ""
+            string "7" = "/RootNode/instances/inst_C7B201D990AEF832_0/mesh"
+            string "70" = "/RootNode/instances/inst_BADAEB645E82B75F_0/mesh"
+            string "71" = "/RootNode/meshes/mesh_BADAEB645E82B75F"
+            string "72" = "/RootNode/meshes/mesh_BADAEB645E82B75F/ref_4c7cc65cc25646348067cc4b4666a890"
+            string "73" = "/RootNode/instances/inst_BADAEB645E82B75F_0/mesh"
+            string "74" = ""
+            string "75" = "/RootNode/meshes"
+            string "76" = ""
+            string "77" = "/RootNode/meshes"
+            string "78" = ""
+            string "79" = "/RootNode/meshes"
+            string "8" = "/RootNode/instances/inst_C7B201D990AEF832_0/ref_3749738b956c4d57af6fe314eaade632/XForms"
+            string "80" = ""
+            string "81" = "/RootNode/meshes"
+            string "82" = ""
+            string "9" = "/RootNode/instances/inst_C7B201D990AEF832_0/mesh"
         }
         dictionary cameraSettings = {
             dictionary Front = {
@@ -32,8 +92,8 @@
                 double radius = 500
             }
             dictionary Perspective = {
-                double3 position = (466.2224327293056, 1243.581250585106, 16.585960881915973)
-                double3 target = (16926.106172194213, -39089.09481896054, -22844.463521532558)
+                double3 position = (-185.82229327570926, 64.5905700248897, -12187.02903763436)
+                double3 target = (-213.11080185275807, 100.48623375492468, -12206.442138145669)
             }
             dictionary Right = {
                 double3 position = (0, -49751.24530805696, 0)
@@ -49,6 +109,8 @@
         dictionary omni_layer = {
             string authoring_layer = "./mod.usda"
             dictionary locked = {
+                bool "../../captures/hdri.usd" = 1
+                bool "./deps/captures/8.usd" = 1
                 bool "./deps/captures/new4.usd" = 1
             }
         }
@@ -56,11 +118,11 @@
         }
     }
     endTimeCode = 0
-    metersPerUnit = 0.010049999691545963
+    metersPerUnit = 1
     startTimeCode = -1
     subLayers = [
         @./mod.usda@,
-        @./deps/captures/new4.usd@
+        @./deps/captures/8.usd@
     ]
     timeCodesPerSecond = 24
     upAxis = "Z"
