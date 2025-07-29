@@ -83,6 +83,15 @@ end
 
 local function CleanupRenderTargets()
     DebugLog("Starting full HDRI cleanup")
+
+    if RemixResource and RemixResource.ClearResources then
+        local success, err = pcall(RemixResource.ClearResources)
+        if success then
+            DebugLog("RemixResource cleanup successful")
+        else
+            DebugLog("RemixResource cleanup failed:", err)
+        end
+    end
     
     -- Safety check for render context
     if render and render.GetRenderTarget then

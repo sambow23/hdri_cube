@@ -6,16 +6,17 @@ local function ToggleDirectionalLights(shouldIgnore)
     if _G.ToggleDirectionalLights then
         return _G.ToggleDirectionalLights(shouldIgnore)
     else
-        -- Fall back to direct call with safety
-        if SetIgnoreGameDirectionalLights then
-            local success, result = pcall(SetIgnoreGameDirectionalLights, shouldIgnore)
+        -- Fall back to new RemixConfig API with safety
+        if RemixConfig and RemixConfig.SetConfigVariable then
+            local value = shouldIgnore and "True" or "False"
+            local success, result = pcall(RemixConfig.SetConfigVariable, "rtx.ignoreGameDirectionalLights", value)
             if not success and cookie.GetNumber("HDRIEditor_RTXWarningShown", 0) == 0 then
                 -- This will be handled by the global version in later calls
-                print("[HDRI Editor] Warning: SetIgnoreGameDirectionalLights failed")
+                print("[HDRI Editor] Warning: RemixConfig.SetConfigVariable failed")
             end
             return success
         else
-            print("[HDRI Editor] Warning: SetIgnoreGameDirectionalLights function not available")
+            print("[HDRI Editor] Warning: RemixConfig API not available")
             return false
         end
     end

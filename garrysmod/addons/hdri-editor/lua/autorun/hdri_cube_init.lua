@@ -4,16 +4,16 @@ if CLIENT then
     -- Add function to detect if the RTX functionality is available
     local rtxFunctionalityAvailable = false
     
-    -- Check if we're on x64 and if the RTX functions exist
+    -- Check if we're on x64 and if the RemixConfig API exists
     timer.Simple(1, function()
-        if not SetIgnoreGameDirectionalLights then
-            print("[HDRI Editor] RTX functions not available - likely running on x32")
+        if not RemixConfig or not RemixConfig.SetConfigVariable then
+            print("[HDRI Editor] Remix API not available - likely running on x32 or RTX module not loaded")
             rtxFunctionalityAvailable = false
         else
             -- Test the function to make sure it actually works
-            local success = pcall(SetIgnoreGameDirectionalLights, false)
+            local success = pcall(RemixConfig.SetConfigVariable, "rtx.ignoreGameDirectionalLights", "False")
             rtxFunctionalityAvailable = success
-            print("[HDRI Editor] RTX functions " .. (success and "available" or "unavailable"))
+            print("[HDRI Editor] Remix API " .. (success and "available" or "unavailable"))
         end
     end)
     
@@ -60,7 +60,7 @@ if CLIENT then
         details:SetFont("DermaDefault")
         details:SetWrap(true)
         details:SetText(
-            "You appear to be running Garry's Mod in 32-bit mode or the RTX module is not properly loaded.\n\n" ..
+            "You appear to be running Garry's Mod in 32-bit mode or the RTX Remix module is not properly loaded.\n\n" ..
             "The HDRI Editor's RTX features require 64-bit Garry's Mod with the RTX Remix Fixes 2 module installed correctly.\n\n" ..
             "You can still use the HDRI Editor, but RTX-specific features like ignoring directional lights will not work."
         )
@@ -95,7 +95,7 @@ if CLIENT then
         end
     end
     
-    -- Modified ToggleDirectionalLights function for properties/hdri_cube_editor.lua
+    -- Updated ToggleDirectionalLights function for properties/hdri_cube_editor.lua
     function ToggleDirectionalLights(shouldIgnore)
         if not rtxFunctionalityAvailable then
             -- Only show warning if we haven't shown it yet this session
@@ -105,8 +105,9 @@ if CLIENT then
             return false
         end
         
-        -- Call the native function
-        local success = pcall(SetIgnoreGameDirectionalLights, shouldIgnore)
+        -- Use the new RemixConfig API
+        local value = shouldIgnore and "True" or "False"
+        local success = pcall(RemixConfig.SetConfigVariable, "rtx.ignoreGameDirectionalLights", value)
         if not success then
             -- If function fails, mark as unavailable and show warning
             rtxFunctionalityAvailable = false
@@ -190,6 +191,10 @@ if CLIENT then
         end
         if CleanupEditorPanel then
             pcall(CleanupEditorPanel)
+        end
+        -- Use new RemixResource API if available
+        if RemixResource and RemixResource.ClearResources then
+            pcall(RemixResource.ClearResources)
         end
     end
 
