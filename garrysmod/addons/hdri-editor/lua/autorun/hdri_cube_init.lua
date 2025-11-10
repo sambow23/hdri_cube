@@ -95,7 +95,10 @@ if CLIENT then
         end
     end
     
-    -- Updated ToggleDirectionalLights function for properties/hdri_cube_editor.lua
+    -- Store original light_environment states
+    local originalEnvLightStates = {}
+    
+    -- Updated ToggleDirectionalLights function - now uses Light2RTX API to disable light_environment lights
     function ToggleDirectionalLights(shouldIgnore)
         if not rtxFunctionalityAvailable then
             -- Only show warning if we haven't shown it yet this session
@@ -105,16 +108,58 @@ if CLIENT then
             return false
         end
         
-        -- Use the new RemixConfig API
-        local value = shouldIgnore and "True" or "False"
-        local success = pcall(RemixConfig.SetConfigVariable, "rtx.ignoreGameDirectionalLights", value)
-        if not success then
-            -- If function fails, mark as unavailable and show warning
-            rtxFunctionalityAvailable = false
-            if cookie.GetNumber("HDRIEditor_RTXWarningShown", 0) == 0 then
-                ShowRTXWarning()
-            end
+        -- Check if Light2RTX API is available
+        if not istable(_G.Light2RTX) then
+            print("[HDRI Editor] Light2RTX API not available - map lights may not be processed yet")
             return false
+        end
+        
+        -- Check if the GetEntriesByClassname function exists
+        if not _G.Light2RTX.GetEntriesByClassname then
+            print("[HDRI Editor] Light2RTX.GetEntriesByClassname not available - please update RTX Remix module")
+            return false
+        end
+        
+        -- Get all light_environment lights
+        local envLights = _G.Light2RTX.GetEntriesByClassname("light_environment")
+        local toggledCount = 0
+        
+        for _, entry in ipairs(envLights) do
+            if shouldIgnore then
+                -- Store original state before disabling
+                if not originalEnvLightStates[entry.id] then
+                    originalEnvLightStates[entry.id] = {
+                        animMul = entry.animMul or 1.0,
+                        animEnabled = entry.animEnabled ~= false
+                    }
+                end
+                -- Disable the light by setting brightness to 0
+                entry.animMul = 0.0
+                entry.animEnabled = false
+            else
+                -- Restore original state
+                local original = originalEnvLightStates[entry.id]
+                if original then
+                    entry.animMul = original.animMul
+                    entry.animEnabled = original.animEnabled
+                else
+                    entry.animMul = 1.0
+                    entry.animEnabled = true
+                end
+            end
+            
+            -- Update the light
+            if _G.Light2RTX.UpdateEntry then
+                _G.Light2RTX.UpdateEntry(entry)
+                toggledCount = toggledCount + 1
+            end
+        end
+        
+        if toggledCount > 0 then
+            print(string.format("[HDRI Editor] %s %d light_environment light(s)", 
+                shouldIgnore and "Disabled" or "Enabled", toggledCount))
+        else
+            print("[HDRI Editor] No light_environment lights found - run 'rtx_api_map_lights_process' first")
         end
         
         return true

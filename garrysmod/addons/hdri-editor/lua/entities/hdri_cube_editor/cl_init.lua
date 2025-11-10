@@ -351,6 +351,10 @@ function ENT:Initialize()
             ["$nocull"] = 1
         })
     end
+    
+    -- Set very large render bounds to prevent culling
+    local renderBounds = 32768 -- Maximum Source engine map size
+    self:SetRenderBounds(Vector(-renderBounds, -renderBounds, -renderBounds), Vector(renderBounds, renderBounds, renderBounds))
 end
 
 function ENT:Draw()

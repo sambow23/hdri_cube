@@ -1,6 +1,5 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
--- Remove the AddCSLuaFile("properties/hdri_cube_editor.lua") line
 include("shared.lua")
 
 util.AddNetworkString("HDRICube_UpdateRotation")

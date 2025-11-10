@@ -2,21 +2,23 @@ local HDRI_EditorPanel = nil
 local lastPos = nil -- Store the last position
 
 local function ToggleDirectionalLights(shouldIgnore)
-    -- Use the global function if available
+    -- Use the global function if available (defined in hdri_cube_init.lua)
     if _G.ToggleDirectionalLights then
         return _G.ToggleDirectionalLights(shouldIgnore)
     else
-        -- Fall back to new RemixConfig API with safety
-        if RemixConfig and RemixConfig.SetConfigVariable then
-            local value = shouldIgnore and "True" or "False"
-            local success, result = pcall(RemixConfig.SetConfigVariable, "rtx.ignoreGameDirectionalLights", value)
-            if not success and cookie.GetNumber("HDRIEditor_RTXWarningShown", 0) == 0 then
-                -- This will be handled by the global version in later calls
-                print("[HDRI Editor] Warning: RemixConfig.SetConfigVariable failed")
+        -- Fallback: try to use Light2RTX API directly
+        if istable(_G.Light2RTX) and _G.Light2RTX.GetEntriesByClassname then
+            local envLights = _G.Light2RTX.GetEntriesByClassname("light_environment")
+            for _, entry in ipairs(envLights) do
+                entry.animMul = shouldIgnore and 0.0 or 1.0
+                entry.animEnabled = not shouldIgnore
+                if _G.Light2RTX.UpdateEntry then
+                    _G.Light2RTX.UpdateEntry(entry)
+                end
             end
-            return success
+            return true
         else
-            print("[HDRI Editor] Warning: RemixConfig API not available")
+            print("[HDRI Editor] Warning: Light2RTX API not available")
             return false
         end
     end
